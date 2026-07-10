@@ -64,3 +64,7 @@ export function monthRangeKeys(year, month) {
 export function isPastKey(key) {
   return key < todayKey()
 }
+
+export function isFutureKey(key) {
+  return key > todayKey()
+}

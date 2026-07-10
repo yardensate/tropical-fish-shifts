@@ -53,6 +53,8 @@ export default function App() {
       .channel('fish-db')
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_shift_requests' }, bump)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_employees' }, bump)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_time_entries' }, bump)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_special_days' }, bump)
       .subscribe()
     window.addEventListener('focus', bump)
     return () => {

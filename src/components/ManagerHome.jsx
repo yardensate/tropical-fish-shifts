@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BoardTab from './BoardTab.jsx'
 import RequestsTab from './RequestsTab.jsx'
+import HoursTab from './HoursTab.jsx'
 import PeopleTab from './PeopleTab.jsx'
 import EmployeeHome from './EmployeeHome.jsx'
 import { getPendingRequests } from '../lib/api.js'
@@ -10,6 +11,7 @@ import { useRefresh } from '../lib/refresh.js'
 const TABS = [
   { id: 'board', label: 'לוח משמרות' },
   { id: 'requests', label: 'בקשות' },
+  { id: 'hours', label: 'שעות' },
   { id: 'people', label: 'עובדים' },
   { id: 'mine', label: 'המשמרות שלי' },
 ]
@@ -37,6 +39,7 @@ export default function ManagerHome({ user }) {
       </nav>
       {tab === 'board' && <BoardTab user={user} />}
       {tab === 'requests' && <RequestsTab user={user} requests={pending || []} />}
+      {tab === 'hours' && <HoursTab />}
       {tab === 'people' && <PeopleTab user={user} />}
       {tab === 'mine' && <EmployeeHome user={user} embedded />}
     </>

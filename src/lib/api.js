@@ -177,3 +177,85 @@ export async function decideRequest(requestId, status, managerId) {
     .eq('id', requestId)
   if (error) throw error
 }
+
+// ---------- special days (holidays + manager-added volunteer days) ----------
+
+export async function getSpecialDays(from, to) {
+  const { data, error } = await supabase
+    .from('fish_special_days')
+    .select('*')
+    .gte('day', from)
+    .lte('day', to)
+    .order('day')
+  if (error) throw error
+  return data
+}
+
+export async function addSpecialDay({ day, name, payClass, createdBy }) {
+  const { error } = await supabase.from('fish_special_days').insert({
+    day,
+    name: normalizeName(name),
+    pay_class: payClass,
+    source: 'manual',
+    created_by: createdBy,
+  })
+  if (error) {
+    if (error.code === '23505') throw new Error('כבר מוגדר יום מיוחד בתאריך הזה')
+    throw error
+  }
+}
+
+export async function deleteSpecialDay(id) {
+  const { error } = await supabase.from('fish_special_days').delete().eq('id', id)
+  if (error) throw error
+}
+
+// ---------- time entries (hours reporting) ----------
+
+export async function getTimeEntriesForEmployee(employeeId, from, to) {
+  const { data, error } = await supabase
+    .from('fish_time_entries')
+    .select('*')
+    .eq('employee_id', employeeId)
+    .gte('work_date', from)
+    .lte('work_date', to)
+  if (error) throw error
+  return data
+}
+
+const EMPLOYEE_JOIN_HOURS =
+  'employee:fish_employees!fish_time_entries_employee_id_fkey(id, first_name, last_name)'
+
+export async function getTimeEntriesForRange(from, to) {
+  const { data, error } = await supabase
+    .from('fish_time_entries')
+    .select(`*, ${EMPLOYEE_JOIN_HOURS}`)
+    .gte('work_date', from)
+    .lte('work_date', to)
+    .order('work_date')
+  if (error) throw error
+  return data
+}
+
+export async function saveTimeEntry(employeeId, workDate, startTime, endTime) {
+  const { error } = await supabase.from('fish_time_entries').upsert(
+    {
+      employee_id: employeeId,
+      work_date: workDate,
+      start_time: startTime,
+      end_time: endTime,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'employee_id,work_date' },
+  )
+  if (error) throw error
+}
+
+export async function deleteTimeEntry(employeeId, workDate) {
+  const { error } = await supabase
+    .from('fish_time_entries')
+    .delete()
+    .eq('employee_id', employeeId)
+    .eq('work_date', workDate)
+  if (error) throw error
+}

@@ -30,8 +30,8 @@ export function MonthNav({ ym, onChange, min, max }) {
   )
 }
 
-// Sun-Thu render as quiet gray cells; Fri-Sat are wide and rendered by the caller.
-export default function CalendarGrid({ year, month, renderWeekend }) {
+// Delegates every in-month cell to the caller; Fri-Sat get the wide columns.
+export default function CalendarGrid({ year, month, renderDay }) {
   const cells = monthGrid(year, month)
   const tKey = todayKey()
   return (
@@ -45,18 +45,10 @@ export default function CalendarGrid({ year, month, renderWeekend }) {
       </div>
       <div className="cal-grid">
         {cells.map((cell) => {
-          const weekend = isWeekendDay(cell.weekday)
           if (!cell.inMonth) {
             return <div key={cell.key} className="cal-cell is-out" />
           }
-          if (!weekend) {
-            return (
-              <div key={cell.key} className={`cal-cell is-weekday ${cell.key === tKey ? 'is-today' : ''}`}>
-                <span className="cal-daynum">{cell.date.getDate()}</span>
-              </div>
-            )
-          }
-          return renderWeekend(cell, cell.key === tKey)
+          return renderDay(cell, cell.key === tKey)
         })}
       </div>
     </div>

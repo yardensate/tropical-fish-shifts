@@ -1135,3 +1135,316 @@ button {
     font-size: 0.86rem;
   }
 }
+
+/* ===== v2: hours reporting + holidays + special days ===== */
+
+/* plain weekdays become tappable for hours reporting */
+button.cal-cell.is-weekday {
+  border: 1.5px solid transparent;
+  font-family: inherit;
+  text-align: start;
+}
+
+.cal-cell.is-weekday.is-clickable {
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.cal-cell.is-weekday.is-clickable:hover {
+  border-color: var(--teal-500);
+  background: #fff;
+}
+
+.cal-cell.is-weekday:disabled {
+  cursor: default;
+}
+
+/* holiday / special day */
+.cal-cell.is-holiday {
+  border-color: #ecc94d;
+  box-shadow: 0 0 0 1px rgba(245, 184, 32, 0.22), var(--shadow-soft);
+}
+
+.day-tag {
+  font-size: 0.62rem;
+  font-weight: 700;
+  color: #8a5a00;
+  background: #fdf3d7;
+  border: 1px solid #f2dcae;
+  border-radius: 999px;
+  padding: 1px 7px;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dot-holiday {
+  background: var(--gold);
+}
+
+.holiday-line {
+  text-align: center;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #8a5a00;
+  background: #fdf3d7;
+  border-radius: 999px;
+  padding: 6px 14px;
+  margin: 0 0 14px;
+}
+
+/* hours chip on calendar cells */
+.cal-entry {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--teal-700);
+  background: #fff;
+  border: 1px solid var(--teal-100);
+  border-radius: 999px;
+  padding: 2px 6px;
+  max-width: 100%;
+}
+
+.mini-clock {
+  color: var(--teal-600);
+  display: inline-flex;
+  margin-inline-start: 4px;
+  vertical-align: middle;
+}
+
+/* hours entry form */
+.hours-base {
+  font-size: 0.84rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 2px 0 12px;
+}
+
+.time-row {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.time-row label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.time-row input[type='time'] {
+  padding: 10px 12px;
+  border: 1.5px solid var(--line);
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-family: inherit;
+  background: #fbfdfe;
+  color: var(--ink);
+  direction: ltr;
+}
+
+.time-row input[type='time']:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(18, 165, 184, 0.18);
+}
+
+/* 100/125/150 breakdown */
+.bd {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin: 14px 0 2px;
+}
+
+.bd-item {
+  background: var(--gray-bg);
+  border-radius: 10px;
+  padding: 8px 4px;
+  text-align: center;
+  display: grid;
+  gap: 2px;
+}
+
+.bd-item span {
+  font-size: 0.7rem;
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.bd-item strong {
+  font-size: 0.95rem;
+}
+
+.bd-125 {
+  background: var(--warn-bg);
+}
+
+.bd-125 strong {
+  color: var(--warn);
+}
+
+.bd-150 {
+  background: var(--no-bg);
+}
+
+.bd-150 strong {
+  color: var(--no);
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 18px 0;
+}
+
+.section-title.center {
+  text-align: center;
+}
+
+.modal-actions.center {
+  justify-content: center;
+}
+
+/* monthly totals strip */
+.hours-summary {
+  margin-top: 14px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  justify-content: center;
+  font-size: 0.92rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 14px;
+}
+
+.hs-bd {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* special day management (manager) */
+.special-box {
+  background: #fdf3d7;
+  border: 1px solid #f2dcae;
+  border-radius: 12px;
+  padding: 10px 12px;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  font-size: 0.92rem;
+}
+
+.addspecial {
+  border: 1.5px dashed var(--line);
+  border-radius: 12px;
+  padding: 12px;
+  margin-bottom: 14px;
+  display: grid;
+  gap: 9px;
+}
+
+.addspecial .section-title {
+  margin: 0;
+}
+
+.text-input {
+  padding: 11px 12px;
+  border-radius: 12px;
+  border: 1.5px solid var(--line);
+  font-size: 1rem;
+  font-family: inherit;
+  background: #fbfdfe;
+  color: var(--ink);
+  width: 100%;
+}
+
+.text-input:focus {
+  outline: none;
+  border-color: var(--teal-500);
+  box-shadow: 0 0 0 3px rgba(18, 165, 184, 0.18);
+}
+
+.pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pill-radio {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 7px 12px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.pill-radio.active {
+  border-color: var(--teal-500);
+  color: var(--teal-700);
+  background: var(--teal-50);
+}
+
+/* hours tab rows */
+.row-click {
+  cursor: pointer;
+  font-family: inherit;
+  text-align: start;
+  width: 100%;
+  font-size: inherit;
+  transition: border-color 0.15s ease;
+}
+
+.row-click:hover {
+  border-color: var(--teal-500);
+}
+
+.bd-tags {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .day-tag {
+    font-size: 0.56rem;
+    padding: 1px 5px;
+  }
+
+  .cal-entry {
+    font-size: 0.6rem;
+    padding: 1px 5px;
+  }
+
+  .bd-tags {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .time-row {
+    gap: 8px;
+  }
+}
