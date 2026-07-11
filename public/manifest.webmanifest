@@ -1,5 +1,5 @@
 {
-  "name": "Tropical Fish · משמרות סופ\"ש",
+  "name": "טרופיקל פיש · משמרות סופ\"ש",
   "short_name": "משמרות",
   "start_url": "./",
   "display": "standalone",
@@ -8,6 +8,6 @@
   "background_color": "#04233f",
   "theme_color": "#0b5c6b",
   "icons": [
-    { "src": "./fish.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+    { "src": "./fish.png", "sizes": "420x420", "type": "image/png", "purpose": "any" }
   ]
 }

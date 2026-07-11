@@ -61,9 +61,9 @@ export default function Login({ onLogin }) {
   return (
     <div className="hero">
       <div className="hero-brand">
-        <img src={FISH_IMAGE_URL} alt="Tropical Fish" className="hero-fish" />
-        <h1 className="hero-title">Tropical Fish</h1>
-        <p className="hero-sub">מערכת משמרות סופ״ש · בריכות דגים ומים</p>
+        <img src={FISH_IMAGE_URL} alt="טרופיקל פיש" className="hero-fish" />
+        <h1 className="hero-title">טרופיקל פיש</h1>
+        <p className="hero-sub">מערכת משמרות סופ״ש · בריכות נוי, מזרקות ואקווריומים</p>
       </div>
 
       {step === 'details' && (

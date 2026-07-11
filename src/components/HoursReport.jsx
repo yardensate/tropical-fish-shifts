@@ -32,7 +32,7 @@ export default function HoursReport({ ym, perEmployee, grand, specialsBy, allEmp
       </div>
 
       <header className="report-head">
-        <h1>Tropical Fish · דוח שעות עבודה</h1>
+        <h1>טרופיקל פיש · דוח שעות עבודה</h1>
         <p>
           {monthLabel(ym.year, ym.month)} · הופק בתאריך {new Date().toLocaleDateString('he-IL')}
         </p>
@@ -134,7 +134,7 @@ export default function HoursReport({ ym, perEmployee, grand, specialsBy, allEmp
       ))}
 
       <footer className="report-foot">
-        Tropical Fish · מערכת משמרות סופ״ש · שעות בסיס: יום רגיל 9 · שישי/ערב חג 7 · שבת/חג 8 ·
+        טרופיקל פיש · מערכת משמרות סופ״ש · שעות בסיס: יום רגיל 9 · שישי/ערב חג 7 · שבת/חג 8 ·
         מעבר לבסיס: שעתיים 125% ואז 150%
       </footer>
     </div>,
