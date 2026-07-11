@@ -32,6 +32,12 @@ export const PlusIcon = ({ size = 14 }) => (
   </svg>
 )
 
+export const DownloadIcon = ({ size = 16 }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" {...base}>
+    <path d="M12 4v11m0 0l-5-5m5 5l5-5M4.5 19.5h15" />
+  </svg>
+)
+
 export const ChevronLeftIcon = ({ size = 18 }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" {...base}>
     <path d="M14.5 5l-7 7 7 7" />

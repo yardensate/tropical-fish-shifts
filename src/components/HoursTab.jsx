@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react'
 import Modal from './Modal.jsx'
+import HoursReport from './HoursReport.jsx'
 import { MonthNav } from './CalendarGrid.jsx'
-import { ClockIcon } from './icons.jsx'
+import { ClockIcon, DownloadIcon } from './icons.jsx'
 import { currentMonth, monthRangeKeys, dayLabel, parseKey } from '../lib/dates.js'
-import { getTimeEntriesForRange, getSpecialDays } from '../lib/api.js'
+import { getTimeEntriesForRange, getSpecialDays, listEmployees } from '../lib/api.js'
 import { dayInfo, entryBreakdown, sumBreakdowns, fmtHM, trimTime } from '../lib/hours.js'
 import { useLoad } from '../lib/useLoad.js'
 import { useRefresh } from '../lib/refresh.js'
@@ -15,11 +16,12 @@ export default function HoursTab() {
   const range = monthRangeKeys(ym.year, ym.month)
 
   const { data, loading } = useLoad(async () => {
-    const [entries, specials] = await Promise.all([
+    const [entries, specials, employees] = await Promise.all([
       getTimeEntriesForRange(range.from, range.to),
       getSpecialDays(range.from, range.to),
+      listEmployees(),
     ])
-    return { entries, specials }
+    return { entries, specials, employees }
   }, [tick, ym.year, ym.month])
 
   const specialsBy = useMemo(
@@ -49,15 +51,26 @@ export default function HoursTab() {
 
   const grand = useMemo(() => sumBreakdowns(perEmployee.map((g) => g.sum)), [perEmployee])
   const [open, setOpen] = useState(null)
+  const [showReport, setShowReport] = useState(false)
 
   return (
     <main className="container">
-      <div className="pagehead">
-        <h1 className="pagehead-title">דיווחי שעות</h1>
-        <p className="pagehead-sub">
-          שעות העבודה שהעובדים דיווחו, עם פירוק לשעות רגילות, 125% ו־150%. לחיצה על עובד פותחת
-          פירוט יומי.
-        </p>
+      <div className="pagehead pagehead-row">
+        <div>
+          <h1 className="pagehead-title">דיווחי שעות</h1>
+          <p className="pagehead-sub">
+            שעות העבודה שהעובדים דיווחו, עם פירוק לשעות רגילות, 125% ו־150%. לחיצה על עובד פותחת
+            פירוט יומי.
+          </p>
+        </div>
+        <button
+          type="button"
+          className="btn btn-primary"
+          disabled={perEmployee.length === 0}
+          onClick={() => setShowReport(true)}
+        >
+          <DownloadIcon size={16} /> דוח PDF
+        </button>
       </div>
       <MonthNav ym={ym} onChange={setYm} />
       {loading && !data ? (
@@ -99,6 +112,16 @@ export default function HoursTab() {
             ))}
           </div>
         </>
+      )}
+      {showReport && (
+        <HoursReport
+          ym={ym}
+          perEmployee={perEmployee}
+          grand={grand}
+          specialsBy={specialsBy}
+          allEmployees={data?.employees}
+          onClose={() => setShowReport(false)}
+        />
       )}
       {open && (
         <Modal

@@ -1439,6 +1439,124 @@ button.cal-cell.is-weekday {
   flex-shrink: 0;
 }
 
+/* ===== printable hours report ===== */
+.report-overlay {
+  position: fixed;
+  inset: 0;
+  background: #fff;
+  z-index: 100;
+  overflow-y: auto;
+  padding: 24px 32px 40px;
+  color: #10303f;
+}
+
+.report-toolbar {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  position: sticky;
+  top: 0;
+  background: #fff;
+  padding: 6px 0 12px;
+  z-index: 2;
+}
+
+.report-head h1 {
+  margin: 0 0 4px;
+  font-size: 1.4rem;
+  color: var(--teal-900);
+}
+
+.report-head p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
+.report-sec {
+  margin: 24px 0;
+}
+
+.report-sec h2 {
+  font-size: 1.05rem;
+  margin: 0 0 8px;
+  color: var(--teal-900);
+  border-bottom: 2px solid var(--teal-100);
+  padding-bottom: 4px;
+}
+
+.report-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.report-table th,
+.report-table td {
+  border: 1px solid var(--line);
+  padding: 6px 10px;
+  text-align: start;
+}
+
+.report-table th {
+  background: var(--teal-50);
+  color: var(--teal-900);
+  font-weight: 700;
+}
+
+.report-table .num {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.report-table .strong {
+  font-weight: 700;
+}
+
+.report-table .total-row td {
+  background: var(--gray-bg);
+  font-weight: 700;
+}
+
+.report-note {
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 8px 0 0;
+}
+
+.report-foot {
+  margin-top: 26px;
+  text-align: center;
+  color: var(--ink-faint);
+  font-size: 0.78rem;
+}
+
+.report-emp {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+@page {
+  size: A4;
+  margin: 14mm;
+}
+
+@media print {
+  body.report-open #root {
+    display: none !important;
+  }
+
+  .report-overlay {
+    position: static !important;
+    overflow: visible !important;
+    padding: 0 !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
 @media (max-width: 640px) {
   .day-tag {
     font-size: 0.56rem;

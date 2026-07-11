@@ -37,13 +37,13 @@ export function Legend() {
   )
 }
 
-// The employee's calendar: previous month (for hours reporting) up to next month.
+// The employee's calendar: a full year back and forward (holidays are seeded years ahead).
 export default function EmployeeHome({ user, embedded = false }) {
   const { tick, bump } = useRefresh()
   const toast = useToast()
   const [ym, setYm] = useState(currentMonth())
-  const minYM = addMonths(currentMonth(), -1)
-  const maxYM = addMonths(currentMonth(), 1)
+  const minYM = addMonths(currentMonth(), -12)
+  const maxYM = addMonths(currentMonth(), 12)
   const range = monthRangeKeys(ym.year, ym.month)
 
   const { data, loading } = useLoad(async () => {
