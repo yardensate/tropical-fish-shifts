@@ -2,14 +2,7 @@ import { useMemo, useState } from 'react'
 import CalendarGrid, { MonthNav } from './CalendarGrid.jsx'
 import DayModal from './DayModal.jsx'
 import { CheckIcon, ClockIcon, XIcon, PlusIcon } from './icons.jsx'
-import {
-  currentMonth,
-  addMonths,
-  monthRangeKeys,
-  isPastKey,
-  isFutureKey,
-  parseKey,
-} from '../lib/dates.js'
+import { currentMonth, addMonths, monthRangeKeys, isPastKey, parseKey } from '../lib/dates.js'
 import {
   getMarksForEmployee,
   getTimeEntriesForEmployee,
@@ -102,6 +95,7 @@ export default function EmployeeHome({ user, embedded = false }) {
     run(() => saveTimeEntry(user.id, selectedKey, start, end), 'דיווח השעות נשמר')
   const deleteHours = () => run(() => deleteTimeEntry(user.id, selectedKey), 'דיווח השעות נמחק')
 
+  // Hours can be reported on ANY day of the week — past, today or ahead of time.
   const renderDay = (cell, isToday) => {
     const info = dayInfo(cell.key, cell.weekday, specialsBy)
     const mark = marksBy[cell.key]
@@ -109,23 +103,25 @@ export default function EmployeeHome({ user, embedded = false }) {
     const st = markState(mark)
     const past = isPastKey(cell.key)
     const canVolunteer = info.volunteerable && !past
-    const canReport = !isFutureKey(cell.key)
-    const clickable = canVolunteer || canReport
 
     if (!info.volunteerable) {
       return (
         <button
           type="button"
           key={cell.key}
-          className={`cal-cell is-weekday ${clickable ? 'is-clickable' : ''} ${isToday ? 'is-today' : ''}`}
+          className={`cal-cell is-weekday is-clickable ${isToday ? 'is-today' : ''}`}
           onClick={() => setSelectedKey(cell.key)}
-          disabled={!clickable}
         >
           <span className="cal-daynum">{cell.date.getDate()}</span>
-          {entry && (
+          {entry ? (
             <span className="cal-entry">
               <ClockIcon size={11} />
               {fmtHM(entryBreakdown(entry, info.payClass).total)}
+            </span>
+          ) : (
+            <span className="cal-hint">
+              <PlusIcon size={12} />
+              <span className="hint-word">שעות</span>
             </span>
           )}
         </button>
@@ -145,7 +141,6 @@ export default function EmployeeHome({ user, embedded = false }) {
           past ? 'is-past' : '',
         ].join(' ')}
         onClick={() => setSelectedKey(cell.key)}
-        disabled={!clickable}
       >
         <span className="cal-daynum">
           {cell.date.getDate()}
@@ -222,7 +217,7 @@ export default function EmployeeHome({ user, embedded = false }) {
           mark={marksBy[selectedKey]}
           entry={entriesBy[selectedKey]}
           canVolunteer={selInfo.volunteerable && !isPastKey(selectedKey)}
-          canReport={!isFutureKey(selectedKey)}
+          canReport
           busy={busy}
           onPick={pick}
           onClear={clear}

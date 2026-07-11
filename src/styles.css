@@ -1155,6 +1155,17 @@ button.cal-cell.is-weekday {
   background: #fff;
 }
 
+.cal-cell.is-weekday .cal-hint {
+  color: var(--ink-faint);
+  font-size: 0.72rem;
+}
+
+@media (max-width: 640px) {
+  .hint-word {
+    display: none;
+  }
+}
+
 .cal-cell.is-weekday:disabled {
   cursor: default;
 }
