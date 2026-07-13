@@ -7,13 +7,14 @@ import { currentMonth, monthRangeKeys, dayLabel, parseKey } from '../lib/dates.j
 import {
   getMarksForRange,
   getSpecialDays,
+  getActiveShifts,
   decideRequest,
   addSpecialDay,
   deleteSpecialDay,
   errorMessage,
 } from '../lib/api.js'
 import { markState } from '../lib/status.js'
-import { dayInfo, PAY_CLASSES } from '../lib/hours.js'
+import { dayInfo, PAY_CLASSES, toHM } from '../lib/hours.js'
 import { useLoad } from '../lib/useLoad.js'
 import { useRefresh } from '../lib/refresh.js'
 import { useToast } from './Toast.jsx'
@@ -114,11 +115,12 @@ export default function BoardTab({ user }) {
   const range = monthRangeKeys(ym.year, ym.month)
 
   const { data, loading } = useLoad(async () => {
-    const [marks, specials] = await Promise.all([
+    const [marks, specials, onShift] = await Promise.all([
       getMarksForRange(range.from, range.to),
       getSpecialDays(range.from, range.to),
+      getActiveShifts(),
     ])
-    return { marks, specials }
+    return { marks, specials, onShift }
   }, [tick, ym.year, ym.month])
 
   const byDate = useMemo(() => {
@@ -201,6 +203,18 @@ export default function BoardTab({ user }) {
 
   return (
     <main className="container">
+      {(data?.onShift || []).length > 0 && (
+        <div className="onshift-strip">
+          <span className="clock-dot" />
+          <strong>במשמרת עכשיו:</strong>
+          {data.onShift
+            .map(
+              (s) =>
+                `${s.employee?.first_name} ${s.employee?.last_name} (מ־${toHM(new Date(s.started_at))})`,
+            )
+            .join(' · ')}
+        </div>
+      )}
       <MonthNav ym={ym} onChange={setYm} />
       <Legend />
       {loading && !data ? (

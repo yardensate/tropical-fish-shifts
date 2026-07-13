@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import CalendarGrid, { MonthNav } from './CalendarGrid.jsx'
 import DayModal from './DayModal.jsx'
+import ShiftClock from './ShiftClock.jsx'
 import { CheckIcon, ClockIcon, XIcon, PlusIcon } from './icons.jsx'
 import { currentMonth, addMonths, monthRangeKeys, isPastKey, parseKey } from '../lib/dates.js'
 import {
@@ -192,6 +193,7 @@ export default function EmployeeHome({ user, embedded = false }) {
           </p>
         </div>
       )}
+      <ShiftClock user={user} />
       <MonthNav ym={ym} onChange={setYm} min={minYM} max={maxYM} />
       <Legend />
       {loading && !data ? (

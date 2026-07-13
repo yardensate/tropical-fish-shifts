@@ -11,6 +11,8 @@ import {
   entryBreakdown,
   sumBreakdowns,
   fmtHM,
+  toHM,
+  fmtElapsed,
   PAY_CLASSES,
 } from '../src/lib/hours.js'
 
@@ -95,6 +97,20 @@ test('calcBreakdown: saturday/shabbaton (8h base)', () => {
 test('entryBreakdown reads DB time strings', () => {
   const entry = { start_time: '08:00:00', end_time: '18:00:00' } // 10h
   assert.deepEqual(entryBreakdown(entry, 'regular'), { total: 600, base: 540, ot125: 60, ot150: 0 })
+})
+
+test('toHM formats a local Date as HH:MM', () => {
+  assert.equal(toHM(new Date(2026, 6, 13, 8, 3)), '08:03')
+  assert.equal(toHM(new Date(2026, 6, 13, 23, 59)), '23:59')
+  assert.equal(toHM(new Date(2026, 6, 13, 0, 0)), '00:00')
+})
+
+test('fmtElapsed formats a running duration', () => {
+  assert.equal(fmtElapsed(0), '0:00:00')
+  assert.equal(fmtElapsed(61000), '0:01:01')
+  assert.equal(fmtElapsed(3661000), '1:01:01')
+  assert.equal(fmtElapsed(10 * 3600 * 1000 + 5000), '10:00:05')
+  assert.equal(fmtElapsed(-500), '0:00:00')
 })
 
 test('sumBreakdowns aggregates', () => {

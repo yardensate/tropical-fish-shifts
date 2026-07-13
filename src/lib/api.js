@@ -259,3 +259,41 @@ export async function deleteTimeEntry(employeeId, workDate) {
     .eq('work_date', workDate)
   if (error) throw error
 }
+
+// ---------- live shift clock ----------
+
+export async function getActiveShift(employeeId) {
+  const { data, error } = await supabase
+    .from('fish_active_shifts')
+    .select('*')
+    .eq('employee_id', employeeId)
+    .maybeSingle()
+  if (error) throw error
+  return data
+}
+
+const EMPLOYEE_JOIN_SHIFT =
+  'employee:fish_employees!fish_active_shifts_employee_id_fkey(id, first_name, last_name)'
+
+export async function getActiveShifts() {
+  const { data, error } = await supabase
+    .from('fish_active_shifts')
+    .select(`*, ${EMPLOYEE_JOIN_SHIFT}`)
+    .order('started_at')
+  if (error) throw error
+  return data
+}
+
+export async function clockIn(employeeId) {
+  const { error } = await supabase.from('fish_active_shifts').insert({ employee_id: employeeId })
+  // 23505 = already clocked in on another device; the running clock will simply show up.
+  if (error && error.code !== '23505') throw error
+}
+
+export async function clearActiveShift(employeeId) {
+  const { error } = await supabase
+    .from('fish_active_shifts')
+    .delete()
+    .eq('employee_id', employeeId)
+  if (error) throw error
+}

@@ -1439,6 +1439,115 @@ button.cal-cell.is-weekday {
   flex-shrink: 0;
 }
 
+/* ===== shift clock ===== */
+.clock-card {
+  background: #fff;
+  border: 1.5px solid var(--line);
+  border-radius: 16px;
+  padding: 13px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-soft);
+  flex-wrap: wrap;
+}
+
+.clock-card.is-on {
+  border-color: var(--ok-line);
+  background: var(--ok-bg);
+}
+
+.clock-title {
+  font-weight: 700;
+  color: var(--teal-900);
+  display: inline-flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.clock-title svg {
+  color: var(--teal-600);
+}
+
+.clock-live {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-weight: 600;
+  color: var(--ink);
+  flex-wrap: wrap;
+}
+
+.clock-elapsed {
+  font-variant-numeric: tabular-nums;
+  font-size: 1.3rem;
+  color: var(--ok);
+}
+
+.clock-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--ok);
+  flex-shrink: 0;
+  animation: clock-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes clock-pulse {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(21, 128, 61, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 7px rgba(21, 128, 61, 0);
+  }
+}
+
+.clock-btn {
+  padding: 12px 26px;
+  font-size: 1.02rem;
+}
+
+.clock-start {
+  background: var(--ok);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(21, 128, 61, 0.3);
+}
+
+.clock-stop {
+  background: var(--no);
+  color: #fff;
+  box-shadow: 0 4px 14px rgba(190, 18, 60, 0.3);
+}
+
+.onshift-strip {
+  background: var(--ok-bg);
+  border: 1px solid var(--ok-line);
+  color: var(--ok);
+  border-radius: 14px;
+  padding: 9px 16px;
+  font-size: 0.92rem;
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .clock-card {
+    justify-content: center;
+  }
+
+  .clock-btn {
+    width: 100%;
+  }
+}
+
 /* ===== printable hours report ===== */
 .report-overlay {
   position: fixed;

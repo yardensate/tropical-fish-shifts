@@ -89,3 +89,17 @@ export function sumBreakdowns(items) {
 export function fmtHM(min) {
   return `${Math.floor(min / 60)}:${String(min % 60).padStart(2, '0')}`
 }
+
+// Date -> 'HH:MM' (local time), for the shift clock.
+export function toHM(date) {
+  return `${String(date.getHours()).padStart(2, '0')}:${String(date.getMinutes()).padStart(2, '0')}`
+}
+
+// Milliseconds -> 'H:MM:SS' running-clock display.
+export function fmtElapsed(ms) {
+  const totalSec = Math.max(0, Math.floor(ms / 1000))
+  const h = Math.floor(totalSec / 3600)
+  const m = Math.floor((totalSec % 3600) / 60)
+  const s = totalSec % 60
+  return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+}

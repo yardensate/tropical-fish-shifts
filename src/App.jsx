@@ -55,6 +55,7 @@ export default function App() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_employees' }, bump)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_time_entries' }, bump)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_special_days' }, bump)
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'fish_active_shifts' }, bump)
       .subscribe()
     window.addEventListener('focus', bump)
     return () => {
