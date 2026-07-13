@@ -1,0 +1,13 @@
+{
+  "name": "טרופיקל פיש · משמרות סופ\"ש",
+  "short_name": "משמרות",
+  "start_url": "./",
+  "display": "standalone",
+  "dir": "rtl",
+  "lang": "he",
+  "background_color": "#04233f",
+  "theme_color": "#0b5c6b",
+  "icons": [
+    { "src": "./fish.png", "sizes": "420x420", "type": "image/png", "purpose": "any" }
+  ]
+}
